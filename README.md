@@ -81,9 +81,15 @@ multi-line hubs are **rounded diamonds** (interchange); walking transfers are
 ## Building
 Open in Android Studio (Koala+), or:
 ```bash
-./gradlew :app:assembleDebug
+./gradlew :app:assembleDebug   # build the debug APK
+./gradlew test                 # run unit tests
 ```
 Requires the Android SDK (compileSdk 35). The Gradle wrapper (8.14.3) is included.
+
+Unit tests (`app/src/test/`) cover the trickiest pure logic with in-memory fake
+DAOs: scheduled arrival/ETA math, line departures, step-by-step directions, and
+metro network assembly (interchange detection, official-color parsing, nearest
+station). No device or emulator required for these.
 
 ## Data & attribution
 Offline network is seeded from `assets/seed/*.json` (a curated, real subset of the

@@ -22,6 +22,8 @@
     <string name="mode_metro">Metro</string>
     <string name="mode_bus">Otobüs</string>
     <string name="action_settings">Ayarlar</string>
+    <string name="favorites_title">Favoriler</string>
+    <string name="favorites_empty">Henüz favori yok. Bir durak, istasyon veya hattaki yıldıza dokunarak buraya kaydedin.</string>
     <string name="offline_banner">İnternet bağlantısı yok — yerel veriler gösteriliyor</string>
 
     <!-- Metro -->

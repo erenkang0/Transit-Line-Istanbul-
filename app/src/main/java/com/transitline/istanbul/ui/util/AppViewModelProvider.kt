@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.transitline.istanbul.TransitLineApplication
 import com.transitline.istanbul.ui.bus.BusViewModel
+import com.transitline.istanbul.ui.home.FavoritesViewModel
 import com.transitline.istanbul.ui.home.RootViewModel
 import com.transitline.istanbul.ui.metro.MetroViewModel
 import com.transitline.istanbul.ui.onboarding.OnboardingViewModel
@@ -30,6 +31,7 @@ object AppViewModelProvider {
         initializer {
             BusViewModel(app().container.busRepository, app().container.favoritesRepository)
         }
+        initializer { FavoritesViewModel(app().container.favoritesRepository) }
     }
 }
 
