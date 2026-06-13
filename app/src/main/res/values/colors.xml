@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Window background used before Compose composes its first frame and for
+         the splash screen. Compose itself owns all in-app theming. -->
+    <color name="window_background">#FBF8FF</color>
+    <color name="splash_background">#FBF8FF</color>
+    <color name="ic_launcher_background">#15334B</color>
+</resources>

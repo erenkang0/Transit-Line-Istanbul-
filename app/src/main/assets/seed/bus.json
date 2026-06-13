@@ -1,0 +1,43 @@
+{
+  "stops": [
+    { "id": "s1", "code": "12345", "name": "Kadıköy İskele" },
+    { "id": "s2", "code": "12346", "name": "Söğütlüçeşme" },
+    { "id": "s3", "code": "12347", "name": "Acıbadem" },
+    { "id": "s4", "code": "12348", "name": "Üsküdar" },
+    { "id": "s5", "code": "12349", "name": "Mecidiyeköy" },
+    { "id": "s6", "code": "12350", "name": "Zincirlikuyu" },
+    { "id": "s7", "code": "12351", "name": "Avcılar Metrobüs" },
+    { "id": "s8", "code": "12352", "name": "Beylikdüzü" }
+  ],
+  "lines": [
+    {
+      "id": "line_34", "code": "34", "originName": "Avcılar", "destinationName": "Söğütlüçeşme",
+      "firstDepartureMin": 300, "lastDepartureMin": 1410, "headwayMin": 4,
+      "stops": [
+        { "stopId": "s7", "offsetMin": 0 },
+        { "stopId": "s6", "offsetMin": 15 },
+        { "stopId": "s5", "offsetMin": 22 },
+        { "stopId": "s2", "offsetMin": 40 }
+      ]
+    },
+    {
+      "id": "line_15", "code": "15", "originName": "Üsküdar", "destinationName": "Kadıköy",
+      "firstDepartureMin": 360, "lastDepartureMin": 1380, "headwayMin": 12,
+      "stops": [
+        { "stopId": "s4", "offsetMin": 0 },
+        { "stopId": "s3", "offsetMin": 10 },
+        { "stopId": "s1", "offsetMin": 22 }
+      ]
+    },
+    {
+      "id": "line_500t", "code": "500T", "originName": "Kadıköy", "destinationName": "Cevizlibağ",
+      "firstDepartureMin": 330, "lastDepartureMin": 1395, "headwayMin": 10,
+      "stops": [
+        { "stopId": "s1", "offsetMin": 0 },
+        { "stopId": "s3", "offsetMin": 8 },
+        { "stopId": "s5", "offsetMin": 35 },
+        { "stopId": "s6", "offsetMin": 42 }
+      ]
+    }
+  ]
+}

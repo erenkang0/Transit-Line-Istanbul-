@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Transit Line (İstanbul)</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_welcome_title">Transit Line\'a hoş geldiniz</string>
+    <string name="onboarding_welcome_subtitle">İstanbul metro ve otobüsleri için hızlı, çevrimdışı rehber. Üyelik yok, reklam yok.</string>
+    <string name="onboarding_language_title">Dilinizi seçin</string>
+    <string name="language_turkish">Türkçe</string>
+    <string name="language_english">English</string>
+    <string name="onboarding_accessibility_title">Konfor ve göz sağlığı</string>
+    <string name="onboarding_accessibility_desc">Daha büyük yazı ve yüksek kontrast ile rahat okuma. İstediğiniz zaman Ayarlar\'dan değiştirebilirsiniz.</string>
+    <string name="onboarding_easy_mode">Yaşlı modu (büyük yazı ve butonlar)</string>
+    <string name="text_size_label">Yazı boyutu</string>
+    <string name="text_size_standard">Standart</string>
+    <string name="text_size_large">Büyük</string>
+    <string name="text_size_extra_large">Çok büyük</string>
+    <string name="onboarding_high_contrast">Yüksek kontrast</string>
+    <string name="onboarding_get_started">Başla</string>
+
+    <!-- Home / mode switch -->
+    <string name="mode_metro">Metro</string>
+    <string name="mode_bus">Otobüs</string>
+    <string name="action_settings">Ayarlar</string>
+    <string name="offline_banner">İnternet bağlantısı yok — yerel veriler gösteriliyor</string>
+
+    <!-- Metro -->
+    <string name="metro_title">Metro haritası</string>
+    <string name="metro_locate_me">En yakın durağı bul</string>
+    <string name="metro_nearest_station">En yakın durak: %1$s</string>
+    <string name="metro_from_here">Buradan</string>
+    <string name="metro_to_here">Buraya</string>
+    <string name="metro_lines_label">Hatlar</string>
+    <string name="metro_transfer_interchange">Aktarma istasyonu</string>
+    <string name="metro_transfer_walk">Yürüyerek aktarma</string>
+    <string name="metro_route_origin">Başlangıç: %1$s</string>
+    <string name="metro_route_destination">Varış: %1$s</string>
+    <string name="metro_clear_route">Temizle</string>
+    <string name="metro_location_rationale">Konum yalnızca size en yakın durağı vurgulamak için kullanılır. Asla paylaşılmaz.</string>
+    <string name="metro_location_powersave_off">Güç Tasarrufu modu açıkken konum kapalıdır.</string>
+    <string name="metro_reset_view">Görünümü sıfırla</string>
+
+    <!-- Bus -->
+    <string name="bus_search_hint">Durak veya hat ara</string>
+    <string name="bus_search_empty">Başlamak için durak adı, durak kodu veya hat numarası arayın.</string>
+    <string name="bus_no_results">\"%1$s\" için sonuç bulunamadı.</string>
+    <string name="bus_lines_through_stop">Bu duraktan geçen hatlar</string>
+    <string name="bus_arrivals_title">Gelecek otobüsler</string>
+    <string name="bus_minutes_short">dk</string>
+    <string name="bus_due">Yaklaşıyor</string>
+    <string name="bus_scheduled_note">Planlanan saatler gösteriliyor. Canlı varış henüz bağlı değil.</string>
+    <string name="bus_section_lines">Hatlar</string>
+    <string name="bus_section_stops">Duraklar</string>
+    <string name="bus_line_from_to">%1$s → %2$s</string>
+    <string name="bus_departures_title">Kalkış saatleri</string>
+    <string name="bus_route_title">Güzergah</string>
+    <string name="bus_go_to_stop_question">Bu durağa mı gitmek istiyorsunuz?</string>
+    <string name="bus_go_to_stop_confirm">Evet, yol tarifini göster</string>
+    <string name="bus_directions_title">Adım adım yol tarifi</string>
+    <string name="bus_directions_board">%2$s durağında %1$s hattına binin</string>
+    <string name="bus_directions_ride">%1$d durak ilerleyin</string>
+    <string name="bus_directions_alight">%1$s durağında inin</string>
+    <string name="bus_stop_code">Durak %1$s</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Ayarlar</string>
+    <string name="settings_section_appearance">Görünüm</string>
+    <string name="settings_power_saving">Güç Tasarrufu modu</string>
+    <string name="settings_power_saving_desc">GPS\'i anında kapatır ve ekranı gerçek OLED siyahına geçirir.</string>
+    <string name="settings_dynamic_color">Material You renkleri</string>
+    <string name="settings_dynamic_color_desc">Duvar kağıdınızdan renkler (Android 12+). Metro hatları her zaman resmi renklerini korur.</string>
+    <string name="settings_high_contrast">Yüksek kontrast</string>
+    <string name="settings_language">Dil</string>
+    <string name="settings_section_accessibility">Erişilebilirlik</string>
+    <string name="settings_easy_mode">Yaşlı modu</string>
+    <string name="settings_easy_mode_desc">Daha büyük yazı ve dokunma alanları.</string>
+    <string name="settings_section_location">Konum</string>
+    <string name="settings_gps_interval">Otomatik güncelleme sıklığı</string>
+    <string name="settings_gps_interval_value">Her %1$d dk</string>
+    <string name="settings_section_data">Veri</string>
+    <string name="settings_export">Favori ve ayarları dışa aktar</string>
+    <string name="settings_import">Dosyadan içe aktar</string>
+    <string name="settings_export_done">Başarıyla dışa aktarıldı.</string>
+    <string name="settings_import_done">Başarıyla içe aktarıldı.</string>
+    <string name="settings_import_error">Bu dosya okunamadı.</string>
+    <string name="settings_section_about">Hakkında</string>
+    <string name="settings_version">Sürüm %1$s</string>
+    <string name="settings_data_source">Ulaşım verisi: İBB Açık Veri Portalı ve İETT. Uygulama ücretsiz ve reklamsızdır.</string>
+
+    <!-- Common -->
+    <string name="action_close">Kapat</string>
+    <string name="action_confirm">Onayla</string>
+    <string name="action_cancel">İptal</string>
+    <string name="action_back">Geri</string>
+    <string name="action_done">Tamam</string>
+    <string name="action_grant_permission">Konuma izin ver</string>
+    <string name="cd_settings">Ayarları aç</string>
+    <string name="cd_clear">Temizle</string>
+    <string name="favorite_add">Favorilere ekle</string>
+    <string name="favorite_remove">Favorilerden çıkar</string>
+</resources>
