@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
@@ -144,7 +145,7 @@ private fun FavoritesSheet(
             style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Bold,
         )
-        Spacer(Modifier.width(8.dp))
+        Spacer(Modifier.height(8.dp))
         if (favorites.isEmpty()) {
             Text(
                 text = stringResource(R.string.favorites_empty),
@@ -168,7 +169,7 @@ private fun FavoritesSheet(
                 }
             }
         }
-        Spacer(Modifier.width(8.dp))
+        Spacer(Modifier.height(8.dp))
     }
 }
 
