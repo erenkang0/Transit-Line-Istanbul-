@@ -8,6 +8,7 @@ import com.transitline.istanbul.data.local.entity.MetroLineEntity
 import com.transitline.istanbul.data.local.entity.MetroLineStationCrossRef
 import com.transitline.istanbul.data.local.entity.MetroStationEntity
 import com.transitline.istanbul.data.local.entity.MetroWalkTransferEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MetroDao {
@@ -15,17 +16,23 @@ interface MetroDao {
     @Query("SELECT COUNT(*) FROM metro_line")
     suspend fun lineCount(): Int
 
+    // Flow queries so the map populates reactively the moment seeding finishes,
+    // even if the screen subscribed while the database was still empty.
     @Query("SELECT * FROM metro_line ORDER BY orderIndex")
-    suspend fun lines(): List<MetroLineEntity>
+    fun linesFlow(): Flow<List<MetroLineEntity>>
 
     @Query("SELECT * FROM metro_station")
-    suspend fun stations(): List<MetroStationEntity>
+    fun stationsFlow(): Flow<List<MetroStationEntity>>
 
     @Query("SELECT * FROM metro_line_station ORDER BY lineId, seq")
-    suspend fun lineStations(): List<MetroLineStationCrossRef>
+    fun lineStationsFlow(): Flow<List<MetroLineStationCrossRef>>
 
     @Query("SELECT * FROM metro_walk_transfer")
-    suspend fun walkTransfers(): List<MetroWalkTransferEntity>
+    fun walkTransfersFlow(): Flow<List<MetroWalkTransferEntity>>
+
+    /** One-shot snapshot used for the GPS nearest-station calculation. */
+    @Query("SELECT * FROM metro_station")
+    suspend fun stations(): List<MetroStationEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertLines(items: List<MetroLineEntity>)

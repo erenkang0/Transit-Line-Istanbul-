@@ -1,40 +1,52 @@
 package com.transitline.istanbul.data.repository
 
 import com.transitline.istanbul.data.local.dao.MetroDao
+import com.transitline.istanbul.data.local.entity.MetroLineEntity
+import com.transitline.istanbul.data.local.entity.MetroLineStationCrossRef
+import com.transitline.istanbul.data.local.entity.MetroStationEntity
+import com.transitline.istanbul.data.local.entity.MetroWalkTransferEntity
 import com.transitline.istanbul.domain.model.MetroLine
 import com.transitline.istanbul.domain.model.MetroNetwork
 import com.transitline.istanbul.domain.model.MetroStation
 import com.transitline.istanbul.domain.model.WalkTransfer
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
 /**
- * Assembles the schematic [MetroNetwork] from Room and caches it in memory.
- * The network is small and static, so a single in-memory snapshot keeps the
- * Canvas fed without touching disk on every frame or recomposition.
+ * Assembles the schematic [MetroNetwork] from Room as a reactive Flow. Because it
+ * is Flow-based, the map populates the instant the first-launch seed lands —
+ * there is no race between the seeder and the screen subscribing.
  */
 class MetroRepository(private val metroDao: MetroDao) {
 
-    private val mutex = Mutex()
-    @Volatile private var cached: MetroNetwork? = null
-
-    suspend fun network(): MetroNetwork {
-        cached?.let { return it }
-        return mutex.withLock {
-            cached ?: build().also { cached = it }
-        }
+    fun networkFlow(): Flow<MetroNetwork> = combine(
+        metroDao.linesFlow(),
+        metroDao.stationsFlow(),
+        metroDao.lineStationsFlow(),
+        metroDao.walkTransfersFlow(),
+    ) { lines, stations, crossRefs, walks ->
+        buildNetwork(lines, stations, crossRefs, walks)
     }
 
-    private suspend fun build(): MetroNetwork {
-        val lines = metroDao.lines()
-        val stations = metroDao.stations()
-        val crossRefs = metroDao.lineStations().groupBy { it.lineId }
-        val walks = metroDao.walkTransfers()
+    /** Nearest station to a coordinate, for the GPS highlight feature. */
+    suspend fun nearestStation(lat: Double, lon: Double): MetroStation? {
+        return metroDao.stations()
+            .map { it.toDomain() }
+            .filter { it.lat != null && it.lon != null }
+            .minByOrNull { haversineMeters(lat, lon, it.lat!!, it.lon!!) }
+    }
 
+    private fun buildNetwork(
+        lines: List<MetroLineEntity>,
+        stations: List<MetroStationEntity>,
+        crossRefs: List<MetroLineStationCrossRef>,
+        walks: List<MetroWalkTransferEntity>,
+    ): MetroNetwork {
+        val byLine = crossRefs.groupBy { it.lineId }
         val domainLines = lines.map { line ->
             MetroLine(
                 id = line.id,
@@ -42,23 +54,17 @@ class MetroRepository(private val metroDao: MetroDao) {
                 nameTr = line.nameTr,
                 nameEn = line.nameEn,
                 colorArgb = parseArgb(line.colorHex),
-                stationIds = crossRefs[line.id].orEmpty().sortedBy { it.seq }.map { it.stationId },
+                stationIds = byLine[line.id].orEmpty().sortedBy { it.seq }.map { it.stationId },
             )
         }
-        val domainStations = stations.map {
-            MetroStation(it.id, it.name, it.x, it.y, it.lat, it.lon)
-        }
-        val domainWalks = walks.map { WalkTransfer(it.fromStationId, it.toStationId) }
-        return MetroNetwork(domainLines, domainStations, domainWalks)
+        return MetroNetwork(
+            lines = domainLines,
+            stations = stations.map { it.toDomain() },
+            walkTransfers = walks.map { WalkTransfer(it.fromStationId, it.toStationId) },
+        )
     }
 
-    /** Nearest station to a coordinate, for the GPS highlight feature. */
-    suspend fun nearestStation(lat: Double, lon: Double): MetroStation? {
-        val net = network()
-        return net.stations
-            .filter { it.lat != null && it.lon != null }
-            .minByOrNull { haversineMeters(lat, lon, it.lat!!, it.lon!!) }
-    }
+    private fun MetroStationEntity.toDomain() = MetroStation(id, name, x, y, lat, lon)
 
     private fun parseArgb(hex: String): Long = hex.removePrefix("#").toLong(16)
 

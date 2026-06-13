@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -28,7 +27,7 @@ class MetroViewModel(
     private val locationProvider: LocationProvider,
 ) : ViewModel() {
 
-    val network: StateFlow<MetroNetwork> = flow { emit(metroRepository.network()) }
+    val network: StateFlow<MetroNetwork> = metroRepository.networkFlow()
         .stateIn(viewModelScope, SharingStarted.Eagerly, MetroNetwork.EMPTY)
 
     val favoriteKeys: StateFlow<Set<String>> = favoritesRepository.favoriteKeys
