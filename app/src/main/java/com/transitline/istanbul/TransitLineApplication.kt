@@ -2,8 +2,8 @@ package com.transitline.istanbul
 
 import android.app.Application
 import android.content.Context
+import com.transitline.istanbul.core.util.LocalePrefs
 import com.transitline.istanbul.core.util.LocaleUtil
-import com.transitline.istanbul.data.datastore.SettingsRepository
 import com.transitline.istanbul.di.AppContainer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +25,7 @@ class TransitLineApplication : Application() {
     }
 
     override fun attachBaseContext(base: Context) {
-        val tag = SettingsRepository(base).currentBlocking().language.tag
+        val tag = LocalePrefs.readTag(base)
         super.attachBaseContext(if (tag == null) base else LocaleUtil.wrap(base, tag))
     }
 }

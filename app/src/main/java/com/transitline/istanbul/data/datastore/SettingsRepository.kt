@@ -9,13 +9,13 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.transitline.istanbul.core.util.LocalePrefs
 import com.transitline.istanbul.domain.model.AppLanguage
 import com.transitline.istanbul.domain.model.AppSettings
 import com.transitline.istanbul.domain.model.TextSize
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
@@ -50,11 +50,12 @@ class SettingsRepository(private val context: Context) {
 
     suspend fun current(): AppSettings = settings.first()
 
-    /** One-shot synchronous read used only by attachBaseContext for the locale. */
-    fun currentBlocking(): AppSettings = runBlocking { settings.first() }
-
     suspend fun setOnboarded(value: Boolean) = update { it[Keys.ONBOARDED] = value }
-    suspend fun setLanguage(value: AppLanguage) = update { it[Keys.LANGUAGE] = value.name }
+
+    suspend fun setLanguage(value: AppLanguage) {
+        update { it[Keys.LANGUAGE] = value.name }
+        LocalePrefs.writeTag(context, value.tag)
+    }
     suspend fun setTextSize(value: TextSize) = update { it[Keys.TEXT_SIZE] = value.name }
     suspend fun setEasyMode(value: Boolean) = update { it[Keys.EASY] = value }
     suspend fun setHighContrast(value: Boolean) = update { it[Keys.HIGH_CONTRAST] = value }
@@ -62,16 +63,19 @@ class SettingsRepository(private val context: Context) {
     suspend fun setPowerSaving(value: Boolean) = update { it[Keys.POWER] = value }
     suspend fun setGpsInterval(minutes: Int) = update { it[Keys.GPS] = minutes }
 
-    /** Used by import to apply a restored preference set in one transaction. */
-    suspend fun replaceAll(s: AppSettings) = update {
-        it[Keys.ONBOARDED] = s.onboarded
-        it[Keys.LANGUAGE] = s.language.name
-        it[Keys.TEXT_SIZE] = s.textSize.name
-        it[Keys.EASY] = s.easyMode
-        it[Keys.HIGH_CONTRAST] = s.highContrast
-        it[Keys.DYNAMIC] = s.dynamicColor
-        it[Keys.POWER] = s.powerSaving
-        it[Keys.GPS] = s.gpsIntervalMinutes
+    /** Used by import / onboarding to apply a whole preference set at once. */
+    suspend fun replaceAll(s: AppSettings) {
+        update {
+            it[Keys.ONBOARDED] = s.onboarded
+            it[Keys.LANGUAGE] = s.language.name
+            it[Keys.TEXT_SIZE] = s.textSize.name
+            it[Keys.EASY] = s.easyMode
+            it[Keys.HIGH_CONTRAST] = s.highContrast
+            it[Keys.DYNAMIC] = s.dynamicColor
+            it[Keys.POWER] = s.powerSaving
+            it[Keys.GPS] = s.gpsIntervalMinutes
+        }
+        LocalePrefs.writeTag(context, s.language.tag)
     }
 
     private suspend fun update(block: (MutablePreferences) -> Unit) {

@@ -30,7 +30,7 @@ class DatabaseSeeder(
         context.assets.open(name).bufferedReader().use { it.readText() }
 
     private suspend fun seedMetro() {
-        val seed = json.decodeFromString<MetroSeed>(readAsset("seed/metro.json"))
+        val seed = json.decodeFromString(MetroSeed.serializer(), readAsset("seed/metro.json"))
         val dao = db.metroDao()
         dao.insertStations(seed.stations.map { MetroStationEntity(it.id, it.name, it.x, it.y, it.lat, it.lon) })
         dao.insertLines(
@@ -49,7 +49,7 @@ class DatabaseSeeder(
     }
 
     private suspend fun seedBus() {
-        val seed = json.decodeFromString<BusSeed>(readAsset("seed/bus.json"))
+        val seed = json.decodeFromString(BusSeed.serializer(), readAsset("seed/bus.json"))
         val dao = db.busDao()
         dao.insertStops(seed.stops.map { BusStopEntity(it.id, it.code, it.name) })
         dao.insertLines(
